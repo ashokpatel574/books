@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { initialState, DataReducer } from "../reducer/DataReducer";
 
 const DataContext = createContext();

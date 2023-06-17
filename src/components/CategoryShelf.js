@@ -2,10 +2,7 @@ import React from "react";
 import { useData } from "../context/DataContext";
 
 const CategoryShelf = ({ shelf }) => {
-  const { state, dispatch, categorySelectHandler } = useData();
-
-  console.log(state);
-
+  const { state, categorySelectHandler } = useData();
   const filteredBooks = state?.filter((item) => item.bookStatus === shelf);
 
   return (
@@ -22,7 +19,7 @@ const CategoryShelf = ({ shelf }) => {
                   id="shelfCategory"
                   onChange={(e) => categorySelectHandler(e, bookItem.name)}
                 >
-                  <option disabled={true}>Move to..</option>
+                  <option>Move to..</option>
                   <option value={`Currently Reading`}>Currently Reading</option>
                   <option value={`Want to Read`}>Want to Read</option>
                   <option value={`Read`}>Read</option>
