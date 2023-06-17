@@ -5,6 +5,20 @@ import { useData } from "../context/DataContext";
 const SearchPage = () => {
   const { state, categorySelectHandler } = useData();
   const [input, setInput] = useState("");
+  const [filter, setFilter] = useState([]);
+
+  const InputHandler = (e) => {
+    setInput(e.target.value);
+    setFilter(
+      state?.filter((item) => {
+        console.log(
+          item.name.toLowerCase().includes(e.target.value.toLowerCase())
+        );
+        return item.name.toLowerCase().includes(e.target.value.toLowerCase());
+      })
+    );
+  };
+
   return (
     <div className="search_container">
       <div>
@@ -18,35 +32,39 @@ const SearchPage = () => {
               type="text"
               id="search"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={InputHandler}
             />
           </label>
         </div>
 
         <ul>
-          {state?.map((bookItem) => (
-            <li key={bookItem.name} className="categoryShelf_container-item">
-              <div className="categoryShelf_Imgcontainer">
-                <img src={bookItem.img} alt={bookItem.name} />
-                <div>
-                  <label htmlFor="shelfCategory"></label>
-                  <select
-                    id="shelfCategory"
-                    onChange={(e) => categorySelectHandler(e, bookItem.name)}
-                  >
-                    <option disabled={true}>Move to..</option>
-                    <option value={`Currently Reading`}>
-                      Currently Reading
-                    </option>
-                    <option value={`Want to Read`}>Want to Read</option>
-                    <option value={`Read`}>Read</option>
-                  </select>
+          {filter.length > 0 ? (
+            filter?.map((bookItem) => (
+              <li key={bookItem.name} className="categoryShelf_container-item">
+                <div className="categoryShelf_Imgcontainer">
+                  <img src={bookItem.img} alt={bookItem.name} />
+                  <div>
+                    <label htmlFor="shelfCategory"></label>
+                    <select
+                      id="shelfCategory"
+                      onChange={(e) => categorySelectHandler(e, bookItem.name)}
+                    >
+                      <option disabled={true}>Move to..</option>
+                      <option value={`Currently Reading`}>
+                        Currently Reading
+                      </option>
+                      <option value={`Want to Read`}>Want to Read</option>
+                      <option value={`Read`}>Read</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <h3>{bookItem.name}</h3>
-              <p>{bookItem.author}</p>
-            </li>
-          ))}
+                <h3>{bookItem.name}</h3>
+                <p>{bookItem.author}</p>
+              </li>
+            ))
+          ) : (
+            <p>No data found </p>
+          )}
         </ul>
       </div>
     </div>
